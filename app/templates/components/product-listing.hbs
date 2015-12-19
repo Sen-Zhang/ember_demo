@@ -1,0 +1,11 @@
+<h4>Product name: {{product.name}}</h4>
+{{#if product.available}}
+  {{#if displayCount}}
+    <p>Count: {{product.count}}</p>
+    <button {{action "hideCount"}}>Hide count</button>
+  {{else}}
+    <button {{action "showCount"}}>Show count</button>
+  {{/if}}
+{{else}}
+  <p>Out of Stock</p>
+{{/if}}

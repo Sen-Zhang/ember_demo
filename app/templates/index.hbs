@@ -1,0 +1,7 @@
+<h2>Welcome to our store!</h2>
+
+{{#each model as |p|}}
+  {{product-listing product=p}}
+{{/each}}
+
+{{#link-to 'about'}}About{{/link-to}} {{#link-to 'contact'}}Click here to contact us.{{/link-to}}
