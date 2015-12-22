@@ -73,39 +73,53 @@ export default function() {
 
    */
 
-   this.get('/products', function () {
-     return {
-       data: [
-         {
-           type: 'product',
-           id: 1,
-           attributes: {
-             name: 'Tennis',
-             count: 10,
-             available: true
-           }
-         },
-         {
-           type: 'product',
-           id: 2,
-           attributes: {
-             name: 'Bike',
-             count: 20,
-             available: true
-           }
-         },
-         {
-           type: 'product',
-           id: 3,
-           attributes: {
-             name: 'Cup',
-             count: 0,
-             available: false
-           }
-         }
-       ]
-     };
-   });
+  var products = [{
+    type: 'product',
+    id: 1,
+    attributes: {
+      name: 'Tennis',
+      count: 10,
+      available: true
+    }
+  }, {
+    type: 'product',
+    id: 2,
+    attributes: {
+      name: 'Bike',
+      count: 20,
+      available: true
+    }
+  }, {
+    type: 'product',
+    id: 3,
+    attributes: {
+      name: 'Cup',
+      count: 0,
+      available: false
+    }
+  }];
+
+  this.get('/products/:id', function(db, request) {
+    return {
+      data: products.filterBy('id', parseInt(request.params.id))[0]
+    };
+  });
+
+  this.get('/products', function(db, request) {
+    var availableProducts = products.filter(function(item, index, self) {
+      return item.attributes.available;
+    });
+    var unavailableProducts = products.filter(function(item, index, self) {
+      return !item.attributes.available;
+    });
+
+    var result = request.queryParams.available == 'true' ? availableProducts : products;
+
+    return {
+      data: result
+    };
+  });
+
 }
 
 /*
